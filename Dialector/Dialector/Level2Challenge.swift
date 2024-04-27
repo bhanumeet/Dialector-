@@ -44,7 +44,6 @@ struct CardView<Content: View>: View {
     }
 }
 
-
 struct FlashCardView: View {
     @Binding var words: [HindiWord]
     @State private var isMatchGamePresented = false
@@ -53,6 +52,10 @@ struct FlashCardView: View {
 
     var body: some View {
         ZStack {
+            Image("grass")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
             if isMatchGamePresented {
                 MatchWordsView(
                     words: $words,
@@ -99,8 +102,6 @@ struct FlashCardView: View {
     }
 }
 
-
-
 struct MatchWordsView: View {
     @Binding var words: [HindiWord]
     var recentWords: [HindiWord]
@@ -110,9 +111,9 @@ struct MatchWordsView: View {
     @State private var showingPopup = false
     @State private var showingSuccessPopup = false
     var showNextWords: () -> Void
-
-    @State private var shuffledWords: [HindiWord] // To maintain a consistent order
     
+    @State private var shuffledWords: [HindiWord] // To maintain a consistent order
+
     init(words: Binding<[HindiWord]>, recentWords: [HindiWord], score: Binding<Int>, showNextWords: @escaping () -> Void) {
         self._words = words
         self.recentWords = recentWords
@@ -123,83 +124,90 @@ struct MatchWordsView: View {
     }
 
     var body: some View {
-        VStack {
-            Text("Match Words")
-                .font(.title)
-            if !allAnswersCorrect {
-                Text("Please match all words correctly to proceed.")
-                    .foregroundColor(.red)
-                    .padding()
-            }
-            Spacer()
-            HStack {
-                VStack {
-                    Text("Hindi Words")
-                        .font(.headline)
-                    ForEach(recentWords.indices, id: \.self) { index in
-                        Text(recentWords[index].hindi)
-                            .font(.title)
-                            .padding()
-                            .background(selections[index] == nil ? Color.green : (selections[index] == recentWords[index] ? Color.green : Color.red))
-                            .foregroundColor(.white)
-                    }
+        GeometryReader { geometry in
+            VStack {
+                Text("Match Words")
+                    .font(.title)
+                if !allAnswersCorrect {
+                    Text("Please match all words correctly to proceed.")
+                        .foregroundColor(.red)
+                        .padding()
                 }
                 Spacer()
-                VStack {
-                    Text("English Meanings")
-                        .font(.headline)
-                    ForEach(shuffledWords, id: \.self) { word in
-                        Text(word.english)
-                            .font(.title)
-                            .padding()
-                            .background(selections.contains(word) ? Color.red : Color.green)
-                            .foregroundColor(.white)
-                            .onTapGesture {
-                                if let selectedIndex = selections.firstIndex(where: {$0 == word}) {
-                                    selections[selectedIndex] = nil // Deselect if already selected
-                                } else if let firstNilIndex = selections.firstIndex(of: nil) {
-                                    selections[firstNilIndex] = word // Select if not already selected
+                HStack {
+                    VStack(alignment: .center) {
+                        Text("Hindi Words")
+                            .font(.headline)
+                        ForEach(recentWords.indices, id: \.self) { index in
+                            Text(recentWords[index].hindi)
+                                .font(.title)
+                                .padding()
+                                .frame(width: geometry.size.width * 0.3) // Set width to 30% of window width
+                                .background(selections[index] == nil ? Color.green : (selections[index] == recentWords[index] ? Color.green : Color.red))
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .padding(.horizontal, 10)
+                    Spacer()
+                    VStack(alignment: .center) {
+                        Text("English Meanings")
+                            .font(.headline)
+                        ForEach(shuffledWords, id: \.self) { word in
+                            Text(word.english)
+                                .font(.title)
+                                .padding()
+                                .frame(width: geometry.size.width * 0.3) // Set width to 30% of window width
+                                .background(selections.contains(word) ? Color.red : Color.green)
+                                .foregroundColor(.white)
+                                .onTapGesture {
+                                    if let selectedIndex = selections.firstIndex(where: {$0 == word}) {
+                                        selections[selectedIndex] = nil // Deselect if already selected
+                                    } else if let firstNilIndex = selections.firstIndex(of: nil) {
+                                        selections[firstNilIndex] = word // Select if not already selected
+                                    }
                                 }
-                            }
+                        }
+                    }
+                    .padding(.horizontal, 10)
+                }
+                .padding()
+                Spacer()
+                Button("Submit") {
+                    let correctAnswers = checkAnswers()
+                    score += correctAnswers
+                    if correctAnswers == recentWords.count {
+                        showingSuccessPopup = true // Show success popup
+                    } else {
+                        allAnswersCorrect = false
+                        showingPopup = true // Show popup on incorrect match
                     }
                 }
-            }
-            Spacer()
-            Button("Submit") {
-                let correctAnswers = checkAnswers()
-                score += correctAnswers
-                if correctAnswers == recentWords.count {
-                    showingSuccessPopup = true // Show success popup
-                } else {
-                    allAnswersCorrect = false
-                    showingPopup = true // Show popup on incorrect match
+                .font(.title)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .alert(isPresented: $showingPopup) {
+                    Alert(
+                        title: Text("Don't Get Discouraged!"),
+                        message: Text("Try again and match the pairs correctly."),
+                        dismissButton: .default(Text("Try Again")) {
+                            // Reset the selections to allow for another attempt
+                            selections = Array(repeating: nil, count: recentWords.count)
+                            shuffledWords.shuffle() // Shuffle the words for another try
+                            allAnswersCorrect = true
+                        }
+                    )
                 }
-            }
-            .font(.title)
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            .alert(isPresented: $showingPopup) {
-                Alert(
-                    title: Text("Don't Get Discouraged!"),
-                    message: Text("Try again and match the pairs correctly."),
-                    dismissButton: .default(Text("Try Again")) {
-                        // Reset the selections to allow for another attempt
-                        selections = Array(repeating: nil, count: recentWords.count)
-                        shuffledWords.shuffle() // Shuffle the words for another try
-                        allAnswersCorrect = true
-                    }
-                )
-            }
-            .alert(isPresented: $showingSuccessPopup) {
-                Alert(
-                    title: Text("Great Job!"),
-                    message: Text("Let's move to the next words."),
-                    dismissButton: .default(Text("Continue")) {
-                        showNextWords() // Move to next words
-                    }
-                )
+                .alert(isPresented: $showingSuccessPopup) {
+                    Alert(
+                        title: Text("Great Job!"),
+                        message: Text("Let's move to the next words."),
+                        dismissButton: .default(Text("Continue")) {
+                            showNextWords() // Move to next words
+                        }
+                    )
+                }
             }
         }
     }

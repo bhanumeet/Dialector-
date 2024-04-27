@@ -40,66 +40,80 @@ struct Level1Challenge: View {
     }
     
     var body: some View {
-        VStack(spacing: 20) {
-            if currentQuestionIndex < hindiLetters.count {
-                Text("Guess the pronunciation of: \(hindiLetters[currentQuestionIndex])")
-                    .font(.title)
-                
-                Text("Questions Remaining: \(hindiLetters.count - currentQuestionIndex)")
-                    .font(.subheadline)
-                
-                let correctAnswer = pronunciations[hindiLetters[currentQuestionIndex]]!
-                let incorrectOptions = pronunciations.values.filter { $0 != correctAnswer }.shuffled().prefix(2)
-                let options = [correctAnswer] + Array(incorrectOptions)
-                let shuffledOptions = options.shuffled()
-                
-                ForEach(shuffledOptions, id: \.self) { option in
+        ZStack {
+            Image("DialectorBG")
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack(spacing: 20) {
+                if currentQuestionIndex < hindiLetters.count {
+                    Text("Guess the pronunciation of: \(hindiLetters[currentQuestionIndex])")
+                        .font(.title)
+                    
+                    Text("Questions Remaining: \(hindiLetters.count - currentQuestionIndex)")
+                        .font(.subheadline)
+                    
+                    let correctAnswer = pronunciations[hindiLetters[currentQuestionIndex]]!
+                    let incorrectOptions = pronunciations.values.filter { $0 != correctAnswer }.shuffled().prefix(2)
+                    let options = [correctAnswer] + Array(incorrectOptions)
+                    let shuffledOptions = options.shuffled()
+                    
+                    VStack(spacing: 10) {
+                        ForEach(shuffledOptions, id: \.self) { option in
+                            Button(action: {
+                                selectedOption = option
+                                let speechUtterance = AVSpeechUtterance(string: option)
+                                speechSynthesizer.speak(speechUtterance)
+                            }) {
+                                Text(option)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.blue)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 20) // Adjust padding to ensure the buttons cover 80% of the width
+                    
                     Button(action: {
-                        selectedOption = option
-                        let speechUtterance = AVSpeechUtterance(string: option)
-                        speechSynthesizer.speak(speechUtterance)
+                        checkAnswer()
                     }) {
-                        Text(option)
+                        Text("Submit")
                             .padding()
-                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
                             .background(Color.blue)
+                            .foregroundColor(.white)
                             .cornerRadius(10)
                     }
-                }
-                
-                Button(action: {
-                    checkAnswer()
-                }) {
-                    Text("Submit")
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text(isCorrectAnswer ? "Correct" : "Incorrect"),
-                          message: Text("The correct pronunciation is: \(currentCorrectAnswer ?? "")"),
-                          dismissButton: .default(Text("Next")) {
-                            selectedOption = nil
-                            showAlert = false
-                          })
-                }
-            } else {
-                Text("Quiz completed!")
-                    .font(.title)
-                
-                Button(action: {
-                    resetQuiz()
-                }) {
-                    Text("Reset Quiz")
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.blue)
-                        .cornerRadius(10)
+                    .padding(.horizontal, 20) // Adjust padding for the submit button as well
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text(isCorrectAnswer ? "Correct" : "Incorrect"),
+                              message: Text("The correct pronunciation is: \(currentCorrectAnswer ?? "")"),
+                              dismissButton: .default(Text("Next")) {
+                                selectedOption = nil
+                                showAlert = false
+                              })
+                    }
+                } else {
+                    Text("Quiz completed!")
+                        .font(.title)
+                    
+                    Button(action: {
+                        resetQuiz()
+                    }) {
+                        Text("Reset Quiz")
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.horizontal, 20)
                 }
             }
+            .padding()
         }
-        .padding()
     }
 }
 

@@ -60,19 +60,35 @@ struct Level2WordsView: View {
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 20) {
-                ForEach(sampleSyllables) { syllable in
-                    SyllableCardView(syllable: syllable)
+        ZStack {
+            Image("water") // Background image for the entire view
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
+
+            VStack {
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(sampleSyllables) { syllable in
+                            SyllableCardView(syllable: syllable)
+                        }
+                    }
+                    .padding()
+                }
+
+                NavigationLink(destination: Level2Challenge()) {
+                    Text("Let's go Sailor!")
+                        .font(.system(size: 18))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(20)
+                        .shadow(radius: 10)
+                        .padding()
                 }
             }
-            .padding()
         }
         .navigationBarTitle("Combinations", displayMode: .inline)
-        .navigationBarItems(trailing: NavigationLink(destination: Level2Challenge()) {
-            Text("Let's go Sailor!")
-                .bold()
-        })
     }
 }
 
@@ -89,28 +105,28 @@ struct Level2ChallengeView_Previews: PreviewProvider {
 
 // You can keep the Level2WordsView_Previews as before to preview Level2WordsView
 
-
-
 struct SyllableCardView: View {
     var syllable: HindiSyllable
 
     var body: some View {
         VStack(spacing: 5) {
             Text("\(syllable.consonant) + \(syllable.vowel)")
-                .font(.system(size: 18)) // Smaller font for the components
-                .foregroundColor(.black)
+                .font(.system(size: 18))
+                .foregroundColor(.brown)
                 .bold()
             
             Text(syllable.result)
-                .font(.system(size: 36)) // Larger font for the result
-                .foregroundColor(.black)
+                .font(.system(size: 32))
+                .foregroundColor(.brown)
                 .bold()
         }
         .frame(width: 110, height: 110)
-        .background(Color.purple) // Purple background for card
+        .background(Image("sand") // Background image for each card
+            .resizable()
+            .aspectRatio(contentMode: .fill))
         .cornerRadius(12)
-        .shadow(color: .black, radius: 5, x: 0, y: 2) // Shadow for the card
-        .padding(.horizontal)
+        .shadow(color: .black, radius: 5, x: 0, y: 2)
+        .padding(30)
     }
 }
 
