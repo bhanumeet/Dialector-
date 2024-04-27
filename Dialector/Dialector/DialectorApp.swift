@@ -1,21 +1,14 @@
-//
-//  DialectorApp.swift
-//  Dialector
-//
-//  Created by Meet  on 4/22/24.
-//
 import SwiftUI
-//import Firebase
+import FirebaseCore
 
 @main
 struct DialectorApp: App {
-//    init() {
-//        FirebaseApp.configure()
-//    }
-    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AuthView()
+                .environmentObject(AppState())
         }
     }
 }

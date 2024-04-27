@@ -2,34 +2,31 @@ import SwiftUI
 
 struct LanguageSelectionView: View {
     @Binding var selectedLanguage: String?
+    @EnvironmentObject var appState: AppState
+
     @State private var isPresented = false
-    @State private var shouldShowLevel1Menu = false
-    
-    @State private var showAlphabets = false
-    @State private var showPronunciation = false
-    @State private var showChallenge = false
-    
+
     let languages = ["HINDI", "SPANISH", "GERMAN", "FRENCH"]
     let flags = ["🇮🇳", "🇪🇸", "🇩🇪", "🇫🇷"]
-    
+
     var body: some View {
         ZStack {
             Color.white.edgesIgnoringSafeArea(.all)
-            
+
             VStack(spacing: 30) {
                 Text("Select Language")
                     .font(.title)
                     .foregroundColor(.purple)
-                
+
                 Spacer()
-                
+
                 LazyVGrid(columns: Array(repeating: GridItem(.fixed(150), spacing: 20), count: 2), spacing: 20) {
                     ForEach(languages.indices, id: \.self) { index in
                         Button(action: {
                             selectedLanguage = languages[index]
-                            
+
                             if languages[index] == "HINDI" {
-                                shouldShowLevel1Menu = true
+                                appState.isShowingHindiMenu = true
                             } else {
                                 withAnimation(.spring()) {
                                     isPresented = true
@@ -55,35 +52,31 @@ struct LanguageSelectionView: View {
                         .animation(.spring())
                     }
                 }
-                
+
                 Spacer()
             }
             .padding()
-            
+
             if isPresented {
                 NextScreenView()
                     .transition(.move(edge: .trailing))
             }
-            
-            if shouldShowLevel1Menu {
-                Level1MenuView(showAlphabets: $showAlphabets, showPronunciation: $showPronunciation, showChallenge: $showChallenge)
-            }
         }
+        .environmentObject(appState)
     }
 }
 
 struct NextScreenView: View {
     @Environment(\.presentationMode) var presentationMode
-    
+
     var body: some View {
         ZStack {
             Color.green.edgesIgnoringSafeArea(.all)
-            
+
             VStack {
                 Text("Next Screen")
                     .font(.title)
                     .foregroundColor(.white)
-                
                 Button("Go Back") {
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -96,9 +89,14 @@ struct NextScreenView: View {
     }
 }
 
-
 struct LanguageSelectionView_Previews: PreviewProvider {
     static var previews: some View {
         LanguageSelectionView(selectedLanguage: .constant(nil))
+            .environmentObject(AppState())
     }
+}
+
+
+class AppState: ObservableObject {
+    @Published var isShowingHindiMenu = false
 }

@@ -68,15 +68,15 @@ struct Level1MenuView: View {
                     Level1Challenge()
                 }
                 
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Back")
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
+//                Button(action: {
+//                    presentationMode.wrappedValue.dismiss()
+//                }) {
+//                    Text("Back")
+//                        .padding()
+//                        .foregroundColor(.white)
+//                        .background(Color.blue)
+//                        .cornerRadius(10)
+//                }
             }
             .padding()
             .navigationBarTitle("Level 1 Menu")
