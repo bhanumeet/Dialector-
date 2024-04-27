@@ -1,19 +1,36 @@
 import SwiftUI
+import Firebase
+
+
 
 struct LanguageSelectionView: View {
     @Binding var selectedLanguage: String?
     @EnvironmentObject var appState: AppState
-
     @State private var isPresented = false
 
     let languages = ["HINDI", "SPANISH", "GERMAN", "FRENCH"]
     let flags = ["🇮🇳", "🇪🇸", "🇩🇪", "🇫🇷"]
+
+    @ObservedObject var authViewModel: AuthViewModel
 
     var body: some View {
         ZStack {
             Color.white.edgesIgnoringSafeArea(.all)
 
             VStack(spacing: 30) {
+                HStack {
+                    Spacer()
+                    Button("Logout") {
+                        logoutUser()
+                    }
+                    .padding()
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+                    Spacer()
+                }
+                .padding(.horizontal)
+
                 Text("Select Language")
                     .font(.title)
                     .foregroundColor(.purple)
@@ -24,7 +41,6 @@ struct LanguageSelectionView: View {
                     ForEach(languages.indices, id: \.self) { index in
                         Button(action: {
                             selectedLanguage = languages[index]
-
                             if languages[index] == "HINDI" {
                                 appState.isShowingHindiMenu = true
                             } else {
@@ -52,7 +68,6 @@ struct LanguageSelectionView: View {
                         .animation(.spring())
                     }
                 }
-
                 Spacer()
             }
             .padding()
@@ -62,7 +77,16 @@ struct LanguageSelectionView: View {
                     .transition(.move(edge: .trailing))
             }
         }
-        .environmentObject(appState)
+    }
+
+    private func logoutUser() {
+        do {
+            try Auth.auth().signOut()
+            appState.isUserLoggedIn = false
+            authViewModel.currentViewShowing = "login"
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
 }
 
@@ -91,12 +115,12 @@ struct NextScreenView: View {
 
 struct LanguageSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        LanguageSelectionView(selectedLanguage: .constant(nil))
+        LanguageSelectionView(selectedLanguage: .constant(nil), authViewModel: AuthViewModel())
             .environmentObject(AppState())
     }
 }
 
-
 class AppState: ObservableObject {
+    @Published var isUserLoggedIn = true
     @Published var isShowingHindiMenu = false
 }
