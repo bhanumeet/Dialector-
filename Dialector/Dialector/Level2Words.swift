@@ -69,7 +69,7 @@ struct Level2WordsView: View {
             .padding()
         }
         .navigationBarTitle("Combinations", displayMode: .inline)
-        .navigationBarItems(trailing: NavigationLink(destination: Level2ChallengeView()) {
+        .navigationBarItems(trailing: NavigationLink(destination: Level2Challenge()) {
             Text("Let's go Sailor!")
                 .bold()
         })
@@ -79,16 +79,11 @@ struct Level2WordsView: View {
 // Assume Level2ChallengeView is defined in Level2Challenge.swift
 // Here is an example definition, replace with your actual view implementation
 
-struct Level2ChallengeView: View {
-    var body: some View {
-        Text("Level 2 Challenge Content Goes Here")
-    }
-}
 
 // Make sure you have a preview for Level2ChallengeView
 struct Level2ChallengeView_Previews: PreviewProvider {
     static var previews: some View {
-        Level2ChallengeView()
+        Level2Challenge()
     }
 }
 
