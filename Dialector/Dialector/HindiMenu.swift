@@ -14,7 +14,7 @@ struct HindiMenuView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Image("DialectorBG")
+                Image("leveling")
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)

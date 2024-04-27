@@ -1,9 +1,3 @@
-//
-//  Level1View2.swift
-//  Dialector
-//
-//  Created by Meet  on 4/23/24.
-//
 import SwiftUI
 import AVFoundation
 
@@ -21,27 +15,30 @@ struct Level1View2: View {
     
     var body: some View {
         ZStack {
-            Color.white.edgesIgnoringSafeArea(.all)
+            Image("DialectorBG")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
             
             VStack {
                 Spacer()
                 
                 ZStack {
-                    RoundedRectangle(cornerRadius: 25)
-                        .fill(Color.purple)
-                        .frame(height: 200)
-                        .frame(width: 250)
+                    Image("sand")
+                        .resizable()
+                        .frame(width: 250, height: 200)
+                        .cornerRadius(25)
                         .offset(x: offset)
                         .rotationEffect(.degrees(degree))
                     
                     VStack {
                         Text(alphabets[currentAlphabetIndex])
                             .font(.system(size: 100))
-                            .foregroundColor(.white)
+                            .foregroundColor(.brown)
                         
                         Text(pronunciations[alphabets[currentAlphabetIndex]] ?? "")
                             .font(.title)
-                            .foregroundColor(.white)
+                            .foregroundColor(.brown)
                     }
                 }
                 
@@ -54,7 +51,7 @@ struct Level1View2: View {
                     Text("Listen")
                         .padding()
                         .foregroundColor(.white)
-                        .background(Color.purple)
+                        .background(Color.blue)
                         .cornerRadius(10)
                 }
                 
