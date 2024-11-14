@@ -13,12 +13,10 @@
 8. [License](#license)
 
 ---
-![1](https://github.com/user-attachments/assets/6c75f5d9-bfb2-4666-9c0d-0e9b960f4733) ![2](https://github.com/user-attachments/assets/83b69ff9-27ce-4d0b-b750-96a8ab581441)
-![3](https://github.com/user-attachments/assets/38e09bab-4596-4139-b540-320254d6c661) ![4](https://github.com/user-attachments/assets/179fe84e-a9e3-4a3a-bfa5-006df831664f)
-![5](https://github.com/user-attachments/assets/e0208622-7eff-44cb-a9d3-3df6780087c0) ![6](https://github.com/user-attachments/assets/4f2777e1-6efc-4bcd-8d02-ec6330932281)
 
-![1](https://github.com/user-attachments/assets/696f5de0-0518-41b0-972a-f42cf5526741) ![2](https://github.com/user-attachments/assets/6bc296a2-887f-4089-b418-5b98aeb450b4)
+![1](https://github.com/user-attachments/assets/8253e84c-0a2b-4541-9ba2-3d447670855e)
 
+![2](https://github.com/user-attachments/assets/4ec40caa-83cb-4b2c-92b3-a6726908dd4e)
 
 
 ## Features
