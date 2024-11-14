@@ -13,7 +13,9 @@
 8. [License](#license)
 
 ---
-![image](https://github.com/user-attachments/assets/5593d621-8491-47c5-bc73-1798eb5acd87)
+![image](https://github.com/user-attachments/assets/5593d621-8491-47c5-bc73-1798eb5acd87)  ![image](https://github.com/user-attachments/assets/7a32180c-5605-4365-9be6-881a9e0d6f7d)
+
+![image](https://github.com/user-attachments/assets/b1a7a941-f536-4851-bfff-d6b0edb341a4)
 
 
 ## Features
