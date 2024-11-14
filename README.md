@@ -13,7 +13,8 @@
 8. [License](#license)
 
 ---
-![Alt text](Screenshot 2024-11-14 031545.png)
+![image](https://github.com/user-attachments/assets/5593d621-8491-47c5-bc73-1798eb5acd87)
+
 
 ## Features
 
