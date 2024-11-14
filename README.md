@@ -17,6 +17,10 @@
 ![3](https://github.com/user-attachments/assets/38e09bab-4596-4139-b540-320254d6c661) ![4](https://github.com/user-attachments/assets/179fe84e-a9e3-4a3a-bfa5-006df831664f)
 ![5](https://github.com/user-attachments/assets/e0208622-7eff-44cb-a9d3-3df6780087c0) ![6](https://github.com/user-attachments/assets/4f2777e1-6efc-4bcd-8d02-ec6330932281)
 
+![1](https://github.com/user-attachments/assets/696f5de0-0518-41b0-972a-f42cf5526741) ![2](https://github.com/user-attachments/assets/6bc296a2-887f-4089-b418-5b98aeb450b4)
+
+
+
 ## Features
 
 - **Interactive Learning Levels**: Dialector offers three primary levels:
