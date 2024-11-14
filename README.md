@@ -36,7 +36,7 @@
 
 1. **Clone the Repository**:
    ```bash
-   git clone [https://github.com/yourusername/dialector.git](https://github.com/bhanumeet/Dialector-.git)
+   git clone (https://github.com/bhanumeet/Dialector-.git)
    cd dialector
    ```
 
