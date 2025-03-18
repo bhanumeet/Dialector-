@@ -1,4 +1,4 @@
-# Dialector
+# Dialector (test)
 
 **Dialector** is an engaging language-learning app designed to help users learn Hindi. Inspired by the journey of a sailor exploring different cultures, Dialector is designed to make language acquisition both immersive and fun. With its mascot, a friendly sailor, Dialector takes users through different levels, from learning basic vowels and alphabets to words and sentences, providing a holistic language-learning experience.
 
@@ -11,6 +11,7 @@
 6. [Roadmap](#roadmap)
 7. [Contributing](#contributing)
 8. [License](#license)
+
 
 ---
 
